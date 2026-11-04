@@ -1,0 +1,14 @@
+
+[general]
+name=Dynamic Layer Attribute Mapper
+qgisMinimumVersion=3.44
+description=Dynamic attribute mapping between vector layers.
+version=1.0.0
+author=Gomathi
+email=gomathi944566@gmail.com
+about=Append features from a source vector layer to a target layer using dynamic attribute field mapping.
+category=Vector
+experimental=True
+homepage=https://github.com/gomathi5222/Dynamic-Layer-Attribute-Mapper
+repository=https://github.com/gomathi5222/Dynamic-Layer-Attribute-Mapper
+tracker=https://github.com/gomathi5222/Dynamic-Layer-Attribute-Mapper/issues
