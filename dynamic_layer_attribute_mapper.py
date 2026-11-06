@@ -77,7 +77,7 @@ class AttributeMapperDialog(QDialog):
 
         self.target_layer = QgsMapLayerComboBox()
         self.target_layer.setFilters(
-            QgsMapLayerProxyModel.PolygonLayer
+            QgsMapLayerProxyModel.Filter.PolygonLayer
         )
 
         self.layout_main.addWidget(self.target_layer)
@@ -89,7 +89,7 @@ class AttributeMapperDialog(QDialog):
 
         self.source_layer = QgsMapLayerComboBox()
         self.source_layer.setFilters(
-            QgsMapLayerProxyModel.PolygonLayer
+            QgsMapLayerProxyModel.Filter.PolygonLayer
         )
 
         self.layout_main.addWidget(self.source_layer)
@@ -389,10 +389,10 @@ class AttributeMapperDialog(QDialog):
             f"Expected output: "
             f"{target.featureCount() + source.featureCount()}\n\n"
             "Original input layers will not be modified.",
-            QMessageBox.Yes | QMessageBox.No
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
-        if answer != QMessageBox.Yes:
+        if answer != QMessageBox.StandardButton.Yes:
             return
 
         try:
@@ -507,7 +507,7 @@ class AttributeMapperDialog(QDialog):
             options.layerName = "Final_Dynamic_Layer_Attributes"
 
             options.actionOnExistingFile = (
-                QgsVectorFileWriter.CreateOrOverwriteFile
+                QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteFile
             )
 
             result = QgsVectorFileWriter.writeAsVectorFormatV3(
@@ -517,7 +517,7 @@ class AttributeMapperDialog(QDialog):
                 options
             )
 
-            if result[0] != QgsVectorFileWriter.NoError:
+            if result[0] != QgsVectorFileWriter.WriterError.NoError:
 
                 raise Exception(
                     f"Output writing failed: {result[1]}"
