@@ -19,7 +19,7 @@ from qgis.gui import QgsMapLayerComboBox
 from qgis.core import QgsMapLayerProxyModel
 
 
-class WardBoundaryMapper:
+class DynamicLayerAttributeMapper:
 
     def __init__(self, iface):
         self.iface = iface
@@ -53,11 +53,11 @@ class WardBoundaryMapper:
 
     def show_dialog(self):
 
-        dialog = WardMapperDialog(self.iface.mainWindow())
+        dialog = AttributeMapperDialog(self.iface.mainWindow())
         dialog.exec()
 
 
-class WardMapperDialog(QDialog):
+class AttributeMapperDialog(QDialog):
 
     def __init__(self, parent=None):
 
@@ -72,7 +72,7 @@ class WardMapperDialog(QDialog):
 
         # Target layer
         self.layout_main.addWidget(
-            QLabel("1. Target Layer - Remaining 1126 Wards")
+            QLabel("1. Target Layer ")
         )
 
         self.target_layer = QgsMapLayerComboBox()
@@ -84,7 +84,7 @@ class WardMapperDialog(QDialog):
 
         # Source layer
         self.layout_main.addWidget(
-            QLabel("2. Source Layer - Correct 76 Wards")
+            QLabel("2. Source Layer")
         )
 
         self.source_layer = QgsMapLayerComboBox()
@@ -142,7 +142,7 @@ class WardMapperDialog(QDialog):
 
         # Run
         self.run_button = QPushButton(
-            "Run Ward Boundary Replacement"
+            "Run"
         )
 
         self.layout_main.addWidget(self.run_button)
@@ -253,7 +253,7 @@ class WardMapperDialog(QDialog):
 
         path, _ = QFileDialog.getSaveFileName(
             self,
-            "Save Final Ward Layer",
+            "Save Final Layer",
             "",
             "GeoPackage (*.gpkg)"
         )
@@ -404,7 +404,7 @@ class WardMapperDialog(QDialog):
 
             memory = QgsVectorLayer(
                 f"{geometry_name}?crs={target.crs().authid()}",
-                "Final_Ward_Boundaries",
+                "Final_Dynamic_Layer_Attributes",
                 "memory"
             )
 
@@ -504,7 +504,7 @@ class WardMapperDialog(QDialog):
 
             options.driverName = "GPKG"
             options.fileEncoding = "UTF-8"
-            options.layerName = "Final_Ward_Boundaries"
+            options.layerName = "Final_Dynamic_Layer_Attributes"
 
             options.actionOnExistingFile = (
                 QgsVectorFileWriter.CreateOrOverwriteFile
@@ -525,8 +525,8 @@ class WardMapperDialog(QDialog):
 
             # Load output
             output_layer = QgsVectorLayer(
-                output_path + "|layername=Final_Ward_Boundaries",
-                "Final_Ward_Boundaries",
+                output_path + "|layername=Final_Dynamic_Layer_Attributes",
+                "Final_Dynamic_Layer_Attributes",
                 "ogr"
             )
 
@@ -543,7 +543,7 @@ class WardMapperDialog(QDialog):
             QMessageBox.information(
                 self,
                 "Processing Completed",
-                "Ward boundary replacement completed!\n\n"
+                "Dynamic layer attribute mapping completed!\n\n"
                 f"Original target features: {target_count}\n"
                 f"Appended source features: {source_count}\n"
                 f"Final features: {output_layer.featureCount()}\n\n"
